@@ -1,7 +1,7 @@
 # PerfectSky Post
 > Clean analytics from the Bluesky Trending feed.
 
-![Banner](banner.png)
+![banner](banner.png)
 
 PerfectSky Post analyzes the posts from the Bluesky Trending feed and provides metrics:
 
