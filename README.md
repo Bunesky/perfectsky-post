@@ -1,7 +1,10 @@
 # PerfectSky Post
-> Clean analytics from the Bluesky Trending feed.
 
-![Banner](banner.png)
+### Web App  
+https://bunesky.github.io/perfectsky-post/
+
+### Screenshot  
+![Screenshot](screenshot.png)
 
 PerfectSky Post analyzes the posts from the Bluesky Trending feed and provides metrics:
 
@@ -10,10 +13,13 @@ PerfectSky Post analyzes the posts from the Bluesky Trending feed and provides m
 - Post types (originals, replies, quotes)  
 - Hashtag frequency  
 
-### Related Projects
+### Feed Source  
+https://bsky.app/profile/did:plc:jlyxq2frdkpnkwhzldvmjlrv/feed/aaadxgnfze66k
+
+### Related Projects  
 • Web app (analytics): https://bunesky.github.io/perfectsky-post/  
 • Web app (analytics + result): https://bunesky.github.io/perfectsky-perfect-post/  
-• Bot: https://github.com/Bunesky/perfectsky-post-bot
+• Bot: https://github.com/Bunesky/perfectsky-post-bot  
 
-### Contact
+### Contact  
 https://bsky.app/profile/bune.bsky.social
