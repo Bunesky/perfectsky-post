@@ -34,6 +34,10 @@ async function init() {
 
     statusEl.textContent = "Analysis completed successfully";
 
+    // Perfect Post del día
+    document.getElementById("perfect-post").textContent =
+      generarPerfectPost(stats);
+
   } catch (error) {
     console.error(error);
 
@@ -131,17 +135,15 @@ Results:
 `;
 }
 
-document.getElementById("perfect-post").textContent =
-  generarPerfectPost(stats);
 function generarPerfectPost(stats) {
   return `
 Perfect Post del día:
 • Publicación original
 • ${stats.mediaChars} caracteres
 • ${stats.mediaPalabras} palabras
-• Imagen: sí
-• Hashtags: no
-• Enlaces: no
-• Video: no
+• Imagen: ${stats.imagenPct > 50 ? "sí" : "no"}
+• Hashtags: ${stats.mediaHashtags > 0 ? "sí" : "no"}
+• Enlaces: ${stats.linksPct > 0 ? "sí" : "no"}
+• Video: ${stats.videoPct > 0 ? "sí" : "no"}
 `;
 }
