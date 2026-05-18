@@ -14,12 +14,16 @@ async function startAnalysis() {
 
   try {
     const response = await fetch(FEED_URL);
-    const data = await response.json();
+        const data = await response.json();
+
+    // TEMP: show raw response to understand what Bluesky returns
+    resultsElement.textContent = JSON.stringify(data, null, 2);
 
     if (!data.feed) {
-      resultsElement.textContent = "No data received.";
+      console.log("No 'feed' field in response:", data);
       return;
     }
+
 
     const posts = data.feed.map(item => item.post.record.text || "");
 
