@@ -19,10 +19,11 @@ async function startAnalysis() {
     // TEMP: show raw response to understand what Bluesky returns
     resultsElement.textContent = JSON.stringify(data, null, 2);
 
-    if (!data.feed) {
-      console.log("No 'feed' field in response:", data);
-      return;
-    }
+   if (!data.feed) {
+  resultsElement.textContent = "RAW RESPONSE:\n\n" + JSON.stringify(data, null, 2);
+  return;
+}
+
 
 
     const posts = data.feed.map(item => item.post.record.text || "");
