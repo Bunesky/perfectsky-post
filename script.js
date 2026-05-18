@@ -134,16 +134,3 @@ Results:
 • % quotes: ${stats.quotesPct}%
 `;
 }
-
-function generarPerfectPost(stats) {
-  return `
-Perfect Post del día:
-• Publicación original
-• ${stats.mediaChars} caracteres
-• ${stats.mediaPalabras} palabras
-• Imagen: ${stats.imagenPct > 50 ? "sí" : "no"}
-• Hashtags: ${stats.mediaHashtags > 0 ? "sí" : "no"}
-• Enlaces: ${stats.linksPct > 0 ? "sí" : "no"}
-• Video: ${stats.videoPct > 0 ? "sí" : "no"}
-`;
-}
