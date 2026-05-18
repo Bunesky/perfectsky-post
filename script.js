@@ -130,3 +130,18 @@ Results:
 • % quotes: ${stats.quotesPct}%
 `;
 }
+
+document.getElementById("perfect-post").textContent =
+  generarPerfectPost(stats);
+function generarPerfectPost(stats) {
+  return `
+Perfect Post del día:
+• Publicación original
+• ${stats.mediaChars} caracteres
+• ${stats.mediaPalabras} palabras
+• Imagen: sí
+• Hashtags: no
+• Enlaces: no
+• Video: no
+`;
+}
