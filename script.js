@@ -3,7 +3,7 @@ console.log("PerfectSky Post script loaded.");
 const statusEl = document.getElementById("status");
 const resultadoEl = document.getElementById("resultado");
 
-// NUEVO FEED: tu feed Trending publicado con MIT
+// Trending feed (MIT published)
 const API_URL =
   "https://public.api.bsky.app/xrpc/app.bsky.feed.getFeed?feed=" +
   encodeURIComponent("at://did:plc:jlyxq2frdkpnkwhzldvmjlrv/app.bsky.feed.generator/aaadxgnfze66k");
@@ -28,15 +28,11 @@ async function init() {
 
     const posts = data.feed;
 
-    const stats = analizar(posts);
+    const stats = analyze(posts);
 
-    resultadoEl.textContent = generarTexto(stats);
+    resultadoEl.textContent = generateText(stats);
 
     statusEl.textContent = "Analysis completed successfully";
-
-    // Perfect Post del día (AQUÍ SÍ FUNCIONA)
-    document.getElementById("perfect-post").textContent =
-      generarPerfectPost(stats);
 
   } catch (error) {
     console.error(error);
@@ -48,19 +44,19 @@ async function init() {
   }
 }
 
-function analizar(posts) {
+function analyze(posts) {
   let totalChars = 0;
   let totalWords = 0;
   let totalHashtags = 0;
 
-  let conImagen = 0;
-  let conVideo = 0;
-  let sinMedia = 0;
+  let withImage = 0;
+  let withVideo = 0;
+  let noMedia = 0;
 
-  let conLinks = 0;
+  let withLinks = 0;
 
-  let respuestas = 0;
-  let originales = 0;
+  let replies = 0;
+  let originals = 0;
   let quotes = 0;
 
   for (const item of posts) {
@@ -77,44 +73,44 @@ function analizar(posts) {
 
     const embedType = post.embed?.$type || "";
 
-    if (embedType.includes("images")) conImagen++;
-    else if (embedType.includes("video")) conVideo++;
-    else sinMedia++;
+    if (embedType.includes("images")) withImage++;
+    else if (embedType.includes("video")) withVideo++;
+    else noMedia++;
 
     const hasLink =
       text.includes("http://") ||
       text.includes("https://") ||
       embedType.includes("external");
 
-    if (hasLink) conLinks++;
+    if (hasLink) withLinks++;
 
-    if (item.reply) respuestas++;
+    if (item.reply) replies++;
     else if (embedType.includes("record")) quotes++;
-    else originales++;
+    else originals++;
   }
 
   const total = posts.length;
 
   return {
     total,
-    mediaChars: Math.round(totalChars / total),
-    mediaPalabras: Math.round(totalWords / total),
-    mediaHashtags: (totalHashtags / total).toFixed(1),
-    imagenPct: porcentaje(conImagen, total),
-    videoPct: porcentaje(conVideo, total),
-    sinMediaPct: porcentaje(sinMedia, total),
-    linksPct: porcentaje(conLinks, total),
-    respuestasPct: porcentaje(respuestas, total),
-    originalesPct: porcentaje(originales, total),
-    quotesPct: porcentaje(quotes, total),
+    avgChars: Math.round(totalChars / total),
+    avgWords: Math.round(totalWords / total),
+    avgHashtags: (totalHashtags / total).toFixed(1),
+    imagePct: percentage(withImage, total),
+    videoPct: percentage(withVideo, total),
+    noMediaPct: percentage(noMedia, total),
+    linksPct: percentage(withLinks, total),
+    repliesPct: percentage(replies, total),
+    originalsPct: percentage(originals, total),
+    quotesPct: percentage(quotes, total),
   };
 }
 
-function porcentaje(valor, total) {
-  return Math.round((valor / total) * 100);
+function percentage(value, total) {
+  return Math.round((value / total) * 100);
 }
 
-function generarTexto(stats) {
+function generateText(stats) {
   return `
 -----------------------------------------
 |   Style Analysis (last 24h)           |
@@ -122,15 +118,15 @@ function generarTexto(stats) {
 
 Results:
 • Posts analyzed: ${stats.total}
-• Avg characters: ${stats.mediaChars}
-• Avg words: ${stats.mediaPalabras}
-• Avg hashtags: ${stats.mediaHashtags}
-• % with image: ${stats.imagenPct}%
+• Avg characters: ${stats.avgChars}
+• Avg words: ${stats.avgWords}
+• Avg hashtags: ${stats.avgHashtags}
+• % with image: ${stats.imagePct}%
 • % with video: ${stats.videoPct}%
-• % without media: ${stats.sinMediaPct}%
+• % without media: ${stats.noMediaPct}%
 • % with links: ${stats.linksPct}%
-• % replies: ${stats.respuestasPct}%
-• % originals: ${stats.originalesPct}%
+• % replies: ${stats.repliesPct}%
+• % originals: ${stats.originalsPct}%
 • % quotes: ${stats.quotesPct}%
 `;
 }
