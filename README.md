@@ -4,9 +4,6 @@
 https://bunesky.github.io/perfectsky-post/
 
 ### Preview  
-A minimal dashboard showing real‑time style metrics from the Bluesky Trending feed.
-
-### Screenshot  
 ![Screenshot](screenshot.png)
 
 PerfectSky Post analyzes the posts from the Bluesky Trending feed and provides metrics:
