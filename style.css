@@ -1,52 +1,78 @@
-/* PerfectSky Post - Final Stylesheet */
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --panel-2: #1f2937;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #374151;
+  --accent: #7dd3fc;
+}
 
-/* Page background and global text */
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
   margin: 0;
-  padding: 20px;
-  color: #222;
+  min-height: 100%;
 }
 
-/* Main container */
-#app {
-  max-width: 650px;
-  margin: 0 auto;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top, #1e293b 0%, var(--bg) 55%);
+  color: var(--text);
 }
 
-/* Main title */
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(920px, 100%);
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 h1 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 24px;
+  margin: 0 0 10px;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.1;
 }
 
-/* Recommendation title */
-h2 {
-  margin-top: 30px;
-  font-size: 20px;
-  text-align: center;
+.status {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
-/* Output blocks */
-pre {
-  background: #eef2f7;
+.output {
+  margin: 0;
   padding: 18px;
-  border-radius: 10px;
+  border-radius: 16px;
+  background: #0b1220;
+  border: 1px solid var(--border);
+  color: var(--text);
   white-space: pre-wrap;
-  font-size: 14px;
-  line-height: 1.4;
-  border: 1px solid #d6dce5;
+  overflow-x: auto;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 420px;
 }
-
-/* Slight highlight for recommendation block */
-#recommendation {
-  background: #e8f5e9;
-  border-color: #b7d8b9;
-}
-
