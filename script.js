@@ -7,7 +7,7 @@ const recommendationElement = document.getElementById("recommendation");
 
 // Bluesky Top 24h feed
 const FEED_URL =
-  "https://public.api.bsky.app/xrpc/app.bsky.feed.getFeed?feed=at://did:plc:whyteamfeed/app.bsky.feed.generator/mostpop";
+  "https://public.api.bsky.app/xrpc/app.bsky.feed.getPopular?limit=30";
 
 
 async function startAnalysis() {
