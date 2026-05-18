@@ -9,7 +9,6 @@ const recommendationElement = document.getElementById("recommendation");
 const FEED_URL =
   "https://public.api.bsky.app/xrpc/app.bsky.feed.getFeed?feed=at://did:plc:ewvi7hyq6g2bq6u7p5f4f6gn/app.bsky.feed.generator/top-24h&limit=30";
 
-
 async function startAnalysis() {
   resultsElement.textContent = "Fetching data...";
 
