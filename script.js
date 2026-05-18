@@ -1,138 +1,262 @@
-// PerfectSky Post - Full Metrics + Recommendation Version
+const statusEl = document.getElementById("status");
+const resultadoEl = document.getElementById("resultado");
 
-console.log("PerfectSky Post script loaded.");
+const API_URL =
+  "https://public.api.bsky.app/xrpc/app.bsky.feed.getFeed?feed=at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot&limit=30";
 
-const resultsElement = document.getElementById("results");
-const recommendationElement = document.getElementById("recommendation");
+init();
 
-const FEED_URL =
-  "https://public.api.bsky.app/xrpc/app.bsky.feed.getTimeline?limit=30";
-
-
-async function startAnalysis() {
-  resultsElement.textContent = "Fetching data...";
+async function init() {
 
   try {
-    const response = await fetch(FEED_URL);
-        const data = await response.json();
 
-    // TEMP: show raw response to understand what Bluesky returns
-    resultsElement.textContent = JSON.stringify(data, null, 2);
+    statusEl.textContent = "Cargando feed de Bluesky...";
 
-   if (!data.feed) {
-  resultsElement.textContent = "RAW RESPONSE:\n\n" + JSON.stringify(data, null, 2);
-  return;
-}
+    const response = await fetch(API_URL);
 
+    if (!response.ok) {
+      throw new Error("Error HTTP " + response.status);
+    }
 
+    const data = await response.json();
 
-    const posts = data.feed.map(item => item.post.record.text || "");
+    if (!data.feed || data.feed.length === 0) {
+      throw new Error("El feed llegó vacío");
+    }
 
-    const metrics = calculateMetrics(posts);
-    const recommendation = generateRecommendation(metrics);
+    const posts = data.feed;
 
-    resultsElement.textContent = formatMetrics(metrics);
-    recommendationElement.textContent = recommendation;
+    const stats = analizar(posts);
+
+    resultadoEl.textContent = generarTexto(stats);
+
+    statusEl.textContent =
+      "Análisis completado correctamente";
 
   } catch (error) {
-    resultsElement.textContent = "Error fetching data.";
+
     console.error(error);
+
+    statusEl.textContent =
+      "Error cargando feed";
+
+    resultadoEl.textContent =
+      "No se pudo analizar el feed.\n\n" +
+      error.message;
   }
 }
 
-// ---------------------------
-// METRICS CALCULATION
-// ---------------------------
+function analizar(posts) {
 
-function calculateMetrics(posts) {
-  const totalPosts = posts.length;
+  let totalChars = 0;
+  let totalWords = 0;
+  let totalHashtags = 0;
 
-  const wordCounts = posts.map(t => t.split(/\s+/).filter(Boolean).length);
-  const charCounts = posts.map(t => t.length);
-  const hashtagCounts = posts.map(t => (t.match(/#/g) || []).length);
-  const uppercasePercents = posts.map(t => {
-    if (t.length === 0) return 0;
-    const upper = t.replace(/[^A-Z]/g, "").length;
-    return (upper / t.length) * 100;
-  });
+  let conImagen = 0;
+  let conVideo = 0;
+  let sinMedia = 0;
 
-  const mediaImagePercent = percentageOf(posts, t => t.includes(".jpg") || t.includes(".png"));
-  const mediaVideoPercent = percentageOf(posts, t => t.includes(".mp4") || t.includes(".mov"));
-  const mediaNonePercent = 100 - (mediaImagePercent + mediaVideoPercent);
+  let conLinks = 0;
 
-  const linkPercent = percentageOf(posts, t => t.includes("http"));
+  let respuestas = 0;
+  let originales = 0;
+  let quotes = 0;
 
-  const avgWords = average(wordCounts);
-  const avgChars = average(charCounts);
-  const avgHashtags = average(hashtagCounts);
-  const avgUppercase = average(uppercasePercents);
+  for (const item of posts) {
 
-  const readingTime = (avgWords / 200) * 60;
+    const post = item.post;
+
+    const text = post.record.text || "";
+
+    totalChars += text.length;
+
+    const words =
+      text.trim().split(/\s+/).filter(Boolean);
+
+    totalWords += words.length;
+
+    const hashtags =
+      text.match(/#\w+/g) || [];
+
+    totalHashtags += hashtags.length;
+
+    const embedType =
+      post.embed?.$type || "";
+
+    if (embedType.includes("images")) {
+      conImagen++;
+    }
+    else if (embedType.includes("video")) {
+      conVideo++;
+    }
+    else {
+      sinMedia++;
+    }
+
+    const hasLink =
+      text.includes("http://") ||
+      text.includes("https://") ||
+      embedType.includes("external");
+
+    if (hasLink) {
+      conLinks++;
+    }
+
+    if (item.reply) {
+      respuestas++;
+    }
+    else if (embedType.includes("record")) {
+      quotes++;
+    }
+    else {
+      originales++;
+    }
+  }
+
+  const total = posts.length;
+
+  const mediaPalabras =
+    totalWords / total;
+
+  const mediaChars =
+    totalChars / total;
+
+  const mediaHashtags =
+    totalHashtags / total;
 
   return {
-    totalPosts,
-    avgWords,
-    avgChars,
-    avgHashtags,
-    mediaImagePercent,
-    mediaVideoPercent,
-    mediaNonePercent,
-    linkPercent,
-    avgUppercase,
-    readingTime
+
+    total,
+
+    mediaChars:
+      Math.round(mediaChars),
+
+    mediaPalabras:
+      Math.round(mediaPalabras),
+
+    mediaHashtags:
+      mediaHashtags.toFixed(1),
+
+    imagenPct:
+      porcentaje(conImagen, total),
+
+    videoPct:
+      porcentaje(conVideo, total),
+
+    sinMediaPct:
+      porcentaje(sinMedia, total),
+
+    linksPct:
+      porcentaje(conLinks, total),
+
+    respuestasPct:
+      porcentaje(respuestas, total),
+
+    originalesPct:
+      porcentaje(originales, total),
+
+    quotesPct:
+      porcentaje(quotes, total),
+
+    recomendacion: {
+
+      palabras:
+        Math.round(mediaPalabras),
+
+      hashtags:
+        Math.round(mediaHashtags),
+
+      media:
+        recomendarMedia(
+          conImagen,
+          conVideo,
+          sinMedia
+        ),
+
+      links:
+        conLinks > total / 2
+          ? "usar enlaces"
+          : "no usar enlaces",
+
+      tipo:
+        recomendarTipo(
+          respuestas,
+          originales,
+          quotes
+        )
+    }
   };
 }
 
-// ---------------------------
-// RECOMMENDATION ENGINE
-// ---------------------------
-
-function generateRecommendation(m) {
-  const idealWords = Math.round(m.avgWords);
-  const idealChars = Math.round(m.avgChars);
-  const idealHashtags = Math.round(m.avgHashtags);
-  const idealUpper = Math.round(m.avgUppercase);
-  const idealReading = Math.round(m.readingTime);
-
-  return (
-    "Based on the top-performing posts:\n\n" +
-    `• Ideal word count: ${idealWords}\n` +
-    `• Ideal character count: ${idealChars}\n` +
-    `• Suggested hashtags: ${idealHashtags}\n` +
-    `• Uppercase usage: ${idealUpper}%\n` +
-    `• Reading time: ${idealReading} seconds\n\n` +
-    "This template reflects the average style of the most successful posts in the last 24 hours."
-  );
+function porcentaje(valor, total) {
+  return Math.round((valor / total) * 100);
 }
 
-// ---------------------------
-// HELPERS
-// ---------------------------
+function recomendarMedia(
+  img,
+  vid,
+  none
+) {
 
-function average(arr) {
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
+  if (img >= vid && img >= none) {
+    return "usar imagen";
+  }
+
+  if (vid >= img && vid >= none) {
+    return "usar vídeo";
+  }
+
+  return "sin media";
 }
 
-function percentageOf(arr, fn) {
-  const count = arr.filter(fn).length;
-  return (count / arr.length) * 100;
+function recomendarTipo(
+  respuestas,
+  originales,
+  quotes
+) {
+
+  if (
+    respuestas >= originales &&
+    respuestas >= quotes
+  ) {
+    return "respuesta";
+  }
+
+  if (
+    originales >= respuestas &&
+    originales >= quotes
+  ) {
+    return "post normal";
+  }
+
+  return "quote";
 }
 
-function formatMetrics(m) {
-  return (
-    "METRICS (Last 24h)\n\n" +
-    `Total posts analyzed: ${m.totalPosts}\n\n` +
-    `Average words: ${m.avgWords.toFixed(2)}\n` +
-    `Average characters: ${m.avgChars.toFixed(2)}\n` +
-    `Average hashtags: ${m.avgHashtags.toFixed(2)}\n\n` +
-    `Posts with images: ${m.mediaImagePercent.toFixed(1)}%\n` +
-    `Posts with videos: ${m.mediaVideoPercent.toFixed(1)}%\n` +
-    `Posts with no media: ${m.mediaNonePercent.toFixed(1)}%\n\n` +
-    `Posts with links: ${m.linkPercent.toFixed(1)}%\n` +
-    `Uppercase usage: ${m.avgUppercase.toFixed(1)}%\n\n` +
-    `Estimated reading time: ${m.readingTime.toFixed(1)} seconds\n`
-  );
-}
+function generarTexto(stats) {
 
-// Run on page load
-startAnalysis();
+  return `
+-----------------------------------------
+|   Análisis de estilo (últimas 24h)    |
+-----------------------------------------
+
+Resultados:
+• Posts analizados: ${stats.total}
+• Media de caracteres: ${stats.mediaChars}
+• Media de palabras: ${stats.mediaPalabras}
+• Media de hashtags: ${stats.mediaHashtags}
+• % con imagen: ${stats.imagenPct}%
+• % con vídeo: ${stats.videoPct}%
+• % sin media: ${stats.sinMediaPct}%
+• % con enlaces: ${stats.linksPct}%
+• % respuestas: ${stats.respuestasPct}%
+• % originales: ${stats.originalesPct}%
+• % quotes: ${stats.quotesPct}%
+
+Recomendación aproximada:
+• ${stats.recomendacion.palabras} palabras
+• ${stats.recomendacion.hashtags} hashtags
+• ${stats.recomendacion.media}
+• ${stats.recomendacion.links}
+• tipo de post: ${stats.recomendacion.tipo}
+`;
+}
