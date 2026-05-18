@@ -1,0 +1,52 @@
+/* PerfectSky Post - Final Stylesheet */
+
+/* Page background and global text */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  margin: 0;
+  padding: 20px;
+  color: #222;
+}
+
+/* Main container */
+#app {
+  max-width: 650px;
+  margin: 0 auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+/* Main title */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+/* Recommendation title */
+h2 {
+  margin-top: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Output blocks */
+pre {
+  background: #eef2f7;
+  padding: 18px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.4;
+  border: 1px solid #d6dce5;
+}
+
+/* Slight highlight for recommendation block */
+#recommendation {
+  background: #e8f5e9;
+  border-color: #b7d8b9;
+}
+
