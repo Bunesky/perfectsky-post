@@ -3,10 +3,10 @@ console.log("PerfectSky Post script loaded.");
 const statusEl = document.getElementById("status");
 const resultadoEl = document.getElementById("resultado");
 
-// Feed REAL que SÍ funciona desde navegador
-// Analiza los posts de @bsky.app (cuenta oficial)
+// NUEVO FEED: tu feed Trending publicado con MIT
 const API_URL =
-  "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=bsky.app&limit=30";
+  "https://public.api.bsky.app/xrpc/app.bsky.feed.getFeed?feed=" +
+  encodeURIComponent("at://did:plc:jlyxq2frdkpnkwhzldvmjlrv/app.bsky.feed.generator/aaadxgnfze66k");
 
 init();
 
