@@ -5,9 +5,8 @@ console.log("PerfectSky Post script loaded.");
 const resultsElement = document.getElementById("results");
 const recommendationElement = document.getElementById("recommendation");
 
-// Bluesky Top 24h feed
 const FEED_URL =
-  "https://public.api.bsky.app/xrpc/app.bsky.feed.getPopular?limit=30";
+  "https://public.api.bsky.app/xrpc/app.bsky.feed.getTimeline?limit=30";
 
 
 async function startAnalysis() {
