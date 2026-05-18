@@ -34,7 +34,7 @@ async function init() {
 
     statusEl.textContent = "Analysis completed successfully";
 
-    // Perfect Post del día
+    // Perfect Post del día (AQUÍ SÍ FUNCIONA)
     document.getElementById("perfect-post").textContent =
       generarPerfectPost(stats);
 
