@@ -22,3 +22,7 @@ https://bsky.app/profile/did:plc:jlyxq2frdkpnkwhzldvmjlrv/feed/aaadxgnfze66k
 
 ### Contact  
 https://bsky.app/profile/bune.bsky.social
+
+---
+
+![Banner](banner.png)
