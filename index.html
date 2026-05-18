@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>PerfectSky Post</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="app">
-    <h1>Style Analysis (Last 24h)</h1>
-
-    <!-- Metrics output -->
-    <pre id="results">Loading data...</pre>
-
-    <!-- Final recommendation -->
-    <h2>Optimal Recommendation</h2>
-    <pre id="recommendation">Calculating...</pre>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PerfectSky Post</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <section class="card">
+        <p class="eyebrow">PerfectSky Post</p>
+        <h1>Análisis de estilo (últimas 24h)</h1>
+        <p id="status" class="status">Cargando feed…</p>
+        <pre id="output" class="output">Esperando datos…</pre>
+      </section>
+    </main>
+  </body>
 </html>
