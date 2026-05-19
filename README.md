@@ -2,10 +2,8 @@
 Web App  
 https://bunesky.github.io/perfectsky-post/
 
-![Banner](banner.png)
-
 PerfectSky Post was the first prototype analyzing posts from the @bunesky Trending Feed.  
-It provides basic style metrics:
+It provides basic metrics:
 
 - Character and word averages  
 - Media usage  
@@ -18,3 +16,5 @@ It provides basic style metrics:
 
 ### Contact
 https://bsky.app/profile/bune.bsky.social
+
+![Banner](banner.png)
