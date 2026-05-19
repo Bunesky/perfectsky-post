@@ -10,9 +10,12 @@ It provides basic metrics:
 - Post type distribution  
 - Hashtag frequency  
 
-### Related Projects
+### Related Projects — Bot Ecosystem  
 • Analytics + result: https://bunesky.github.io/perfectsky-perfect-post/  
-• Bot: https://github.com/Bunesky/perfectsky-post-bot
+• Bot: https://github.com/Bunesky/perfectsky-post-bot  
+• Feed debug tool: https://bunesky.github.io/perfectsky-feed-debug/  
+
+
 
 ### Contact
 https://bsky.app/profile/bune.bsky.social
