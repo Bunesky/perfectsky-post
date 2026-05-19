@@ -1,28 +1,20 @@
 # PerfectSky Post
-
-### Web App  
+Web App  
 https://bunesky.github.io/perfectsky-post/
 
-### Preview  
-![Screenshot](screenshot.png)
+![Banner](banner.png)
 
-PerfectSky Post analyzes the posts from the Bluesky Trending feed and provides metrics:
+PerfectSky Post was the first prototype analyzing posts from the @bunesky Trending Feed.  
+It provides basic style metrics:
 
 - Character and word averages  
-- Media usage (images, video, links, no media)  
-- Post types (originals, replies, quotes)  
+- Media usage  
+- Post type distribution  
 - Hashtag frequency  
 
-### Feed Source  
-https://bsky.app/profile/did:plc:jlyxq2frdkpnkwhzldvmjlrv/feed/aaadxgnfze66k
+### Related Projects
+• Analytics + result: https://bunesky.github.io/perfectsky-perfect-post/  
+• Bot: https://github.com/Bunesky/perfectsky-post-bot
 
-### Related Projects  
-• Web app (analytics + result): https://bunesky.github.io/perfectsky-perfect-post/  
-• Bot: https://github.com/Bunesky/perfectsky-post-bot  
-
-### Contact  
+### Contact
 https://bsky.app/profile/bune.bsky.social
-
----
-
-![Banner](banner.png)
