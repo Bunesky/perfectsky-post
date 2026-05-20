@@ -2,7 +2,7 @@
 Web App  
 https://bunesky.github.io/perfectsky-post/
 
-PerfectSky Post was the first prototype analyzing posts from the @bunesky Trending Feed.  
+PerfectSky Post was the first prototype analyzing posts from the Trending Feed.  
 It provides basic metrics:
 
 - Character and word averages  
@@ -14,7 +14,8 @@ It provides basic metrics:
 • Analytics + result: https://bunesky.github.io/perfectsky-perfect-post/  
 • Bot: https://github.com/Bunesky/perfectsky-post-bot  
 • Feed debug tool: https://bunesky.github.io/perfectsky-feed-debug/  
-
+Bot Account
+https://bsky.app/profile/perfectskypost.bsky.social
 
 
 ### Contact
